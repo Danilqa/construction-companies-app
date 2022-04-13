@@ -23,10 +23,10 @@ module.exports = {
     devServer: {
         contentBase: path.resolve(__dirname, '../../docs'),
         historyApiFallback: true,
-        port: 3000
+        port: 3500
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: './docs/index.html' }),
+        new HtmlWebpackPlugin({ template: './public/index.html' }),
         new CopyWebpackPlugin([
             { from: 'src/assets', to: 'assets' }
         ])
