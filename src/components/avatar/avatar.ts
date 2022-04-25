@@ -3,10 +3,9 @@ import { size } from '../../styles/mixins';
 import * as React from 'react';
 
 export const Avatar = React.memo(styled.div`
-    width: ${size(120)};
-    height: ${size(120)};
-    margin-bottom: 50px;
-    background-image: url('/assets/avatar.jpg');
+    width: ${size(210)};
+    height: ${size(210)};
+    margin-bottom: 33px;
+    background-image: url('/assets/avatar.png');
     background-size: cover;
-    border-radius: 50%;
 `);
