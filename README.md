@@ -2,6 +2,12 @@
 
 Just a personal page.
 
+# Future improvements
+
+1. Optimized list
+2. Lazy loading
+3. If case of lags using the react suspence mode
+
 # Getting started
 
 1. Copy current folder.
