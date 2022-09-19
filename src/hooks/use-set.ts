@@ -11,7 +11,11 @@ export const useSet = <T>(initValue: Array<T>): Api<T> => {
     const [value, setValue] = useState(initValue);
 
     const add = useCallback((val: T) => {
-        setValue(currentItems => Array.from(new Set([...currentItems, val])));
+        if (value.includes(val)) {
+            return;
+        }
+
+        setValue(currentItems => [...currentItems, val]);
     }, []);
 
     const remove = useCallback((val: T) => {
