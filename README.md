@@ -4,26 +4,24 @@ Just a personal page.
 
 # Future improvements
 
-1. Optimized list
-2. Lazy loading
-3. If case of lags using the react suspence mode
+1. Virtual list in order to improve performance
+2. Lazy loading on scroll
+3. Move the fetching logic outside of the view layer
 
 # Getting started
 
-1. Copy current folder.
-2. Fill the `package.json` with data for your project.
-3. `yarn install` - install the dependencies.
-4. `yarn dev` - start on the localhost at 3000 port.
+1. `yarn install` - install the dependencies
+2. `yarn dev` - start on the localhost at 3500 port
 
-# Why do we have that dependencies?
+# Why do we have these dependencies?
 
 * `react` - provides api for create and control ui-components.  
 * `react-dom` - provides DOM-specific methods to step out from react-world
 to DOM-world and is used on top level of application.
-* `styled-components` - it is way to organize styles as isolated components
-(in particular, elements of main component).
+* `bootstrap` - provides layout, input and other components. It has zero external dependencies and the smallest 
+size in comparison with other libraries.
 
-# Why do we have that dev dependencies?
+# Why do we have these dev dependencies?
 
 * `@eigenspace/codestyle` - includes lint rules, config for typescript.
 * `@eigenspace/commit-linter` - linter for commit messages.

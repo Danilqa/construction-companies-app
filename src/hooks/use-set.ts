@@ -7,11 +7,11 @@ interface Api<T> {
     has: (value: T) => boolean;
 }
 
-export const useArray = <T>(initValue: Array<T>): Api<T> => {
+export const useSet = <T>(initValue: Array<T>): Api<T> => {
     const [value, setValue] = useState(initValue);
 
     const add = useCallback((val: T) => {
-        setValue(currentItems => [...currentItems, val]);
+        setValue(currentItems => Array.from(new Set([...currentItems, val])));
     }, []);
 
     const remove = useCallback((val: T) => {

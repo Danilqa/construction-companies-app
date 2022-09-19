@@ -2,5 +2,5 @@ export type JsonData =
     | string
     | number
     | boolean
-    | { [x: string]: JsonData }
+    | { [property: string]: JsonData }
     | Array<JsonData>;

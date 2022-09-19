@@ -1,4 +1,4 @@
-import { DependencyList, useEffect, useState } from 'react';
+import { DependencyList, useEffect, useRef, useState } from 'react';
 import { JsonData } from '../types/json';
 
 interface Api<R> {
@@ -13,6 +13,8 @@ export function useFetch<R extends JsonData = JsonData>(
     deps: DependencyList,
     debounceDelay?: number
 ): Api<R> {
+    const isFirstRender = useRef(true);
+
     const [responseJson, setResponseJson] = useState<R>();
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -21,18 +23,17 @@ export function useFetch<R extends JsonData = JsonData>(
         const abortController = new AbortController();
         let isAborted = false;
 
-        setError(undefined);
-        setIsLoading(true);
-
         async function fetchData(): Promise<void> {
             try {
+                setError(undefined);
+                setIsLoading(true);
                 const { signal } = abortController;
                 const queryString = Object.keys(params)
+                    .filter(key => params[key]?.length)
                     .map(key => `${key}=${params[key]}`)
                     .join('&');
 
-                console.log('fetch data', params);
-                const res: R = await fetch(`${url}${queryString}`, { signal }).then(data => data.json());
+                const res: R = await fetch(`${url}?${queryString}`, { signal }).then(data => data.json());
 
                 if (isAborted) {
                     return;
@@ -40,21 +41,30 @@ export function useFetch<R extends JsonData = JsonData>(
 
                 setResponseJson(res);
             } catch (e) {
-                console.log('catch');
                 if (isAborted) {
                     return;
                 }
 
-                setError(e);
+                setError(e.toString());
             } finally {
                 setIsLoading(false);
             }
         }
 
-        const timeoutId = setTimeout(() => fetchData(), debounceDelay);
+        let timeoutId: number | undefined;
+        if (isFirstRender.current) {
+            fetchData();
+        } else {
+            timeoutId = setTimeout(() => fetchData(), debounceDelay);
+        }
+
+        isFirstRender.current = false;
 
         return () => {
-            clearTimeout(timeoutId);
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
             abortController.abort();
             isAborted = true;
         };
