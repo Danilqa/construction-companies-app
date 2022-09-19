@@ -21,7 +21,6 @@ export function useFetch<R extends JsonData = JsonData>(
 
     useEffect((): () => void => {
         const abortController = new AbortController();
-        let isAborted = false;
 
         async function fetchData(): Promise<void> {
             try {
@@ -35,13 +34,13 @@ export function useFetch<R extends JsonData = JsonData>(
 
                 const res: R = await fetch(`${url}?${queryString}`, { signal }).then(data => data.json());
 
-                if (isAborted) {
+                if (abortController.signal.aborted) {
                     return;
                 }
 
                 setResponseJson(res);
             } catch (e) {
-                if (isAborted) {
+                if (abortController.signal.aborted) {
                     return;
                 }
 
@@ -66,7 +65,6 @@ export function useFetch<R extends JsonData = JsonData>(
             }
 
             abortController.abort();
-            isAborted = true;
         };
     }, deps);
 
